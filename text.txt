@@ -1,0 +1,7 @@
+Dans la dexieur partie j'ai deja fait des modification au projet 
+
+1) Annuler l'utiliter de fichier web.xml et definir ce qui est nécessaire dans le servlet 
+2) Ajouter un page header.jsp qui contient ce qui est nécessaire pour le header de toute les page jsp et inclut le dans produit.jsp, edit.jsp, confirmer.jsp et saisie.jsp3) Ajouter la page saisie.jsp qui comporte le le formulaire realiser avec Bootstrap
+4) Ajouter la page de confirmation.jsp pour la derniere ajout de produit
+5) Ajouter le code nécessaire pour la supprission avec javascript dans lapage produit.jsp
+6) Ajouter la fonctionalitée de modification dans la page edit.jsp
