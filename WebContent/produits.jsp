@@ -8,6 +8,8 @@
 <link rel="stylesheet" type="text/css" href="css/myStyle.css">
 </head>
 <body>
+
+<%@include file="header.jsp" %>
 	<div class="container col-md-10 col-md-offset-1">
 		<div class="panel panel-primary">
 			<div class="panel-heading">Rechercher des produits</div>
@@ -29,6 +31,8 @@
 							<td>${p.designation }</td>
 							<td>${p.prix }</td>
 							<td>${p.quantite }</td>
+							<td><a onclick="return confirm('ëtes vous sûre de le supprimer?')" href="supprimer.do?id=${p.id }">Supprimer</a> </td>
+							<td><a href="editer.do?id=${p.id }">Modifier</a> </td>
 						</tr>
 
 					</c:forEach>

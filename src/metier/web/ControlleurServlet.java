@@ -14,7 +14,7 @@ import metier.dao.IProduitDAO;
 import metier.dao.ProduitDaoImp;
 import metier.entities.Produit;
 
-@WebServlet("/ControlleurServlet")
+@WebServlet(name = "ControlleurServlet", urlPatterns = { "*.do" })
 public class ControlleurServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -35,8 +35,11 @@ public class ControlleurServlet extends HttpServlet {
 		String path = request.getServletPath();
 		System.out.println(path);
 		if (path.equals("/index.do")) {
+
 			request.getRequestDispatcher("produits.jsp").forward(request, response);
+
 		} else if (path.equals("/chercher.do")) {
+
 			String motCle = request.getParameter("motCle");
 			ProduitModel model = new ProduitModel();
 			model.setMotCle(motCle);
@@ -44,7 +47,49 @@ public class ControlleurServlet extends HttpServlet {
 			model.setProduits(produits);
 			request.setAttribute("model", model);
 			request.getRequestDispatcher("produits.jsp").forward(request, response);
-		}else{
+
+		} else if (path.equals("/saisie.do")) {
+
+			request.setAttribute("produit", new Produit());
+			request.getRequestDispatcher("saisieProduit.jsp").forward(request, response);
+
+		} else if (path.equals("/save.do") && request.getMethod().equals("POST")) {
+
+			String design = request.getParameter("designation");
+			double prix = Double.parseDouble(request.getParameter("prix"));
+			int qte = Integer.parseInt(request.getParameter("quantite"));
+			Produit p = metier.save(new Produit(design, prix, qte));
+			request.setAttribute("produit", p);
+			request.getRequestDispatcher("confirmation.jsp").forward(request, response);
+
+		} else if (path.equals("/updateProduit.do") && request.getMethod().equals("POST")) {
+
+			Long id =Long.parseLong(request.getParameter("id_produit"));
+			String design = request.getParameter("designation");
+			double prix = Double.parseDouble(request.getParameter("prix"));
+			int qte = Integer.parseInt(request.getParameter("quantite"));
+			Produit p=new Produit(design, prix, qte);			
+			p.setId(id);			
+			metier.updateProduit(p);
+			request.setAttribute("produit", p);
+			//request.getRequestDispatcher("confirmation.jsp").forward(request, response);
+			response.sendRedirect("chercher.do?motCle=");
+			
+		} else if (path.equals("/supprimer.do")) {
+
+			Long id = Long.parseLong(request.getParameter("id"));
+			metier.deleteProduit(id);
+			// request.getRequestDispatcher("produits.jsp").forward(request,
+			// response);
+			response.sendRedirect("chercher.do?motCle=");
+		} else if (path.equals("/editer.do")) {
+
+			Long id = Long.parseLong(request.getParameter("id"));
+			Produit p = metier.getProduit(id);
+			request.setAttribute("produit", p);
+			request.getRequestDispatcher("edit.jsp").forward(request, response);
+
+		} else {
 			response.sendError(response.SC_NOT_FOUND);
 		}
 
@@ -52,6 +97,7 @@ public class ControlleurServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 }

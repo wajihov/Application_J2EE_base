@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>TP_CATALOGUE</display-name>
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>ControlleurServlet</servlet-name>
 		<servlet-class>metier.web.ControlleurServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ControlleurServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 </web-app>

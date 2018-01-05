@@ -40,27 +40,42 @@ public class ProduitDaoImp implements IProduitDAO {
 		try {
 			PreparedStatement ps = connection.prepareStatement("Select * from produit where Designation like ?");
 			ps.setString(1, "%" + mc + "%");
-			ResultSet rs =ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Produit p=new Produit();
+				Produit p = new Produit();
 				p.setId(rs.getLong(1));
 				p.setDesignation(rs.getString(2));
 				p.setPrix(rs.getDouble("prix"));
 				p.setQuantite(rs.getInt("Quantite"));
-				produits.add(p);				
+				produits.add(p);
 			}
 			ps.close();
 		} catch (Exception e) {
 
 		}
-
 		return produits;
 	}
 
 	@Override
 	public Produit getProduit(Long id) {
+		Connection connection = SingletonConnetion.getConnecxion();
+		Produit p = null;
+		try {
+			PreparedStatement ps = connection.prepareStatement("select * from produit where id_produit = ?");
+			ps.setLong(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				p = new Produit();
+				p.setId(rs.getLong("id_produit"));
+				p.setDesignation(rs.getString("designation"));
+				p.setPrix(rs.getDouble("prix"));
+				p.setQuantite(rs.getInt(4));
+			}
+			ps.close();
+		} catch (Exception e) {
 
-		return null;
+		}
+		return p;
 	}
 
 	@Override
@@ -71,13 +86,33 @@ public class ProduitDaoImp implements IProduitDAO {
 
 	@Override
 	public Produit updateProduit(Produit p) {
+		Connection connection = SingletonConnetion.getConnecxion();
+		try {			
+			PreparedStatement ps = connection.prepareStatement(
+					"UPDATE produit set designation = ? ,prix = ?, quantite = ? where id_produit=?");
+			ps.setString(1, p.getDesignation());
+			ps.setDouble(2, p.getPrix());
+			ps.setInt(3, p.getQuantite());
+			ps.setLong(4, p.getId());
+			ps.executeUpdate();			
+			ps.close();
+		} catch (Exception e) {
 
+		}
 		return null;
 	}
 
 	@Override
 	public void deleteProduit(Long id) {
+		Connection connection = SingletonConnetion.getConnecxion();
+		try {
+			PreparedStatement ps = connection.prepareStatement("delete from produit where id_produit = ?");
+			ps.setLong(1, id);
+			ps.executeUpdate();
+			ps.close();
+		} catch (Exception e) {
 
+		}
 	}
 
 }
